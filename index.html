@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Tập Thực Hành 21 - VHU Tổng Hợp</title>
+    <style>
+        /* Giao diện chính */
+        :root { --primary: #3498db; --bg: #f4f4f9; --text: #2c3e50; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .main-container { max-width: 900px; margin: auto; background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h1 { text-align: center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+
+        /* Menu điều hướng bài tập */
+        .exercise-nav { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 30px; }
+        .nav-link { padding: 10px 15px; background: #eee; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; border: none; }
+        .nav-link:hover { background: var(--primary); color: white; }
+        .nav-link.active { background: var(--primary); color: white; }
+
+        .exercise-box { display: none; padding: 20px; border: 1px solid #ddd; border-radius: 8px; animation: fadeIn 0.5s; }
+        .exercise-box.active { display: block; }
+
+        /* CSS TK4: Tab View */
+        .tab-btn { padding: 10px 20px; cursor: pointer; border: 1px solid #ccc; background: #f9f9f9; }
+        .tab-btn.btn-active { background: orange; color: white; border-color: orange; }
+        .tab-content { display: none; padding: 15px; border: 1px solid #ccc; margin-top: -1px; }
+        .tab-content.active { display: block; }
+
+        /* CSS TK5: Accordion */
+        .accordion { background: #eee; cursor: pointer; padding: 15px; width: 100%; border: none; text-align: left; font-weight: bold; margin-top: 10px; }
+        .panel { padding: 0 15px; background: white; max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out; border: 1px solid transparent; }
+        .panel.show { max-height: 200px; border-color: #eee; padding: 15px; }
+
+        /* CSS K8: BMI */
+        .bmi-input { margin: 10px 0; }
+        input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        button.calc-btn { padding: 8px 20px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; }
+
+        /* CSS K7: Parallax */
+        .parallax-wrap { position: relative; overflow: hidden; height: 200px; border-radius: 8px; margin-top: 10px; }
+        .parallax-bg { background-image: url('https://picsum.photos/1200/800'); height: 400px; background-attachment: local; background-position: center; background-size: cover; position: absolute; width: 100%; top: 0; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <h1>Bài Tập Thực Hành 21</h1>
+    
+    <div class="exercise-nav">
+        <button class="nav-link active" onclick="showEx(event, 'ex-tk4')">TK4: Tab View</button>
+        <button class="nav-link" onclick="showEx(event, 'ex-tk5')">TK5: Accordion</button>
+        <button class="nav-link" onclick="showEx(event, 'ex-k3')">K3: Mật khẩu</button>
+        <button class="nav-link" onclick="showEx(event, 'ex-k7')">K7: Parallax</button>
+        <button class="nav-link" onclick="showEx(event, 'ex-k8')">K8: BMI</button>
+    </div>
+
+    <div id="ex-tk4" class="exercise-box active">
+        <h3>Giao diện Tab</h3>
+        <div id="tabs">
+            <button onclick="openTabContent(event, 'tab1')" class="tab-btn btn-active">Tab 1</button>
+            <button onclick="openTabContent(event, 'tab2')" class="tab-btn">Tab 2</button>
+            <button onclick="openTabContent(event, 'tab3')" class="tab-btn">Tab 3</button>
+        </div>
+        <div id="tab1" class="tab-content active">Nội dung của thẻ Tab số 1</div>
+        <div id="tab2" class="tab-content">Nội dung của thẻ Tab số 2</div>
+        <div id="tab3" class="tab-content">Nội dung của thẻ Tab số 3</div>
+    </div>
+
+    <div id="ex-tk5" class="exercise-box">
+        <h3>Hiệu ứng Accordion</h3>
+        <button class="accordion">Tiêu đề Accordion (Bấm vào để mở)</button>
+        <div class="panel">
+            <p>Nội dung ẩn hiện bí ẩn đã được tối ưu hóa mượt mà hơn!</p>
+        </div>
+    </div>
+
+    <div id="ex-k3" class="exercise-box">
+        <h3>Đăng ký tài khoản</h3>
+        <div class="bmi-input">
+            <input type="password" id="pw" placeholder="Nhập mật khẩu"><br><br>
+            <input type="password" id="cpw" placeholder="Nhập lại mật khẩu"><br><br>
+            <button class="calc-btn" onclick="validatePassword()">Đăng ký ngay</button>
+        </div>
+    </div>
+
+    <div id="ex-k7" class="exercise-box">
+        <h3>Hiệu ứng Parallax Mini</h3>
+        <p>Cuộn trong khung dưới đây:</p>
+        <div class="parallax-wrap" id="parallaxScroll" style="overflow-y: scroll;">
+            <div class="parallax-bg" id="bgImg"></div>
+            <div style="height: 600px; position: relative; padding: 20px; color: white; text-shadow: 1px 1px 5px black;">
+                <h4>Nội dung đè lên ảnh</h4>
+                <p>Ảnh nền sẽ di chuyển chậm hơn nội dung.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="ex-k8" class="exercise-box">
+        <h3>Tính chỉ số BMI</h3>
+        <div class="bmi-input">
+            Cân nặng (kg): <input type="number" id="w" step="0.1" placeholder="65"><br><br>
+            Chiều cao (m): <input type="number" id="h" step="0.01" placeholder="1.7"><br><br>
+            <button class="calc-btn" onclick="calcBMI()">Tính BMI</button>
+        </div>
+        <h4 id="res" style="color: #27ae60;"></h4>
+    </div>
+</div>
+
+<script>
+    // Điều hướng bài tập chính
+    function showEx(evt, exName) {
+        document.querySelectorAll(".exercise-box").forEach(box => box.classList.remove("active"));
+        document.querySelectorAll(".nav-link").forEach(btn => btn.classList.remove("active"));
+        document.getElementById(exName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    // Logic TK4: Tabs
+    function openTabContent(evt, tabName) {
+        let box = evt.currentTarget.closest('.exercise-box');
+        box.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+        box.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("btn-active"));
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("btn-active");
+    }
+
+    // Logic TK5: Accordion
+    document.querySelector(".accordion").addEventListener("click", function() {
+        this.nextElementSibling.classList.toggle("show");
+    });
+
+    // Logic K3: Validate
+    function validatePassword() {
+        const pw = document.getElementById("pw").value;
+        const cpw = document.getElementById("cpw").value;
+        if(!pw) return alert("Vui lòng nhập mật khẩu!");
+        if(pw !== cpw) return alert("Mật khẩu không khớp!");
+        alert("Đăng ký thành công!");
+    }
+
+    // Logic K7: Parallax Mini
+    document.getElementById("parallaxScroll").addEventListener('scroll', function() {
+        let offset = this.scrollTop;
+        document.getElementById("bgImg").style.transform = `translateY(${offset * 0.5}px)`;
+    });
+
+    // Logic K8: BMI
+    function calcBMI() {
+        let w = parseFloat(document.getElementById("w").value);
+        let h = parseFloat(document.getElementById("h").value);
+        if(!w || !h) return alert("Vui lòng nhập đủ thông tin!");
+        let bmi = w / (h * h);
+        let result = bmi < 18.5 ? "Thiếu cân" : bmi < 25 ? "Bình thường" : "Thừa cân";
+        document.getElementById("res").innerText = `BMI: ${bmi.toFixed(2)} - Phân loại: ${result}`;
+    }
+</script>
+
+</body>
+</html>
